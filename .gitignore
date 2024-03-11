@@ -1,5 +1,7 @@
 .env*
 !.env*sample
+server.crt
+server.key
 
 /tmp
 /build
