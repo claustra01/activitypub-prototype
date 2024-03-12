@@ -27,7 +27,7 @@ type UsageUsers struct {
 	Total int `json:"total"`
 }
 
-func NodeInfo2_0(e echo.Context) error {
+func NodeInfo2_0(c echo.Context) error {
 	resp := NodeInfoResponse{
 		SoftWare: SoftWare{
 			Name:    "activitypub-prototype",
@@ -42,10 +42,10 @@ func NodeInfo2_0(e echo.Context) error {
 			},
 		},
 	}
-	return e.JSON(http.StatusOK, resp)
+	return c.JSON(http.StatusOK, resp)
 }
 
-func NodeInfo2_1(e echo.Context) error {
+func NodeInfo2_1(c echo.Context) error {
 	resp := NodeInfoResponse{
 		SoftWare: SoftWare{
 			Name:    "activitypub-prototype",
@@ -60,5 +60,5 @@ func NodeInfo2_1(e echo.Context) error {
 			},
 		},
 	}
-	return e.JSON(http.StatusOK, resp)
+	return c.JSON(http.StatusOK, resp)
 }
