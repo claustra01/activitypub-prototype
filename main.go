@@ -21,7 +21,7 @@ func main() {
 	e := echo.New()
 
 	e.GET("/.well-known/nodeinfo", wellknown.NodeInfo)
-	// e.GET("/.well-known/webfinger", wellknown.WebFinger)
+	e.GET("/.well-known/webfinger", wellknown.WebFinger)
 
 	e.GET("/nodeinfo/2.0", nodeinfo.NodeInfo2_0)
 	e.GET("/nodeinfo/2.1", nodeinfo.NodeInfo2_1)
