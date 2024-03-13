@@ -1,5 +1,7 @@
 .env*
 !.env*sample
+config.yml
+
 server.crt
 server.key
 

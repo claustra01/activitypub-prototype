@@ -1,30 +1,44 @@
 package main
 
 import (
+	"io/ioutil"
 	"log"
-	"os"
 
 	"github.com/claustra01/activitypub-prototype/nodeinfo"
 	"github.com/claustra01/activitypub-prototype/user"
 	"github.com/claustra01/activitypub-prototype/wellknown"
-	"github.com/joho/godotenv"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
+	"gopkg.in/yaml.v2"
 )
+
+type Config struct {
+	Host string `yaml:"host"`
+	Port string `yaml:"port"`
+}
 
 func main() {
 
-	// dotenv
-	err := godotenv.Load()
+	var config Config
+	yamlFile := "config.yml"
+
+	data, err := ioutil.ReadFile(yamlFile)
 	if err != nil {
-		log.Fatal("Error loading .env file")
+		log.Fatal(err)
+	}
+	err = yaml.Unmarshal(data, &config)
+	if err != nil {
+		log.Fatal(err)
 	}
 
 	e := echo.New()
-	e.Use(middleware.LoggerWithConfig(middleware.LoggerConfig{
-		Output: os.Stdout,
-		Format: "method=${method}, uri=${uri}, status=${status}\n",
-	}))
+	e.Use(middleware.Logger())
+	e.Use(func(next echo.HandlerFunc) echo.HandlerFunc {
+		return func(c echo.Context) error {
+			c.Set("host", config.Host)
+			return next(c)
+		}
+	})
 
 	e.GET("/.well-known/nodeinfo", wellknown.NodeInfo)
 	e.GET("/.well-known/webfinger", wellknown.WebFinger)
@@ -34,6 +48,6 @@ func main() {
 
 	e.GET("/users/test", user.MockUser)
 
-	// log.Fatal(e.Start(":" + os.Getenv("PORT")))
-	log.Fatal(e.StartTLS(":"+os.Getenv("PORT"), "server.crt", "server.key"))
+	log.Fatal(e.Start(":" + config.Port))
+	// log.Fatal(e.StartTLS(":"+config.Port, "server.crt", "server.key"))
 }
