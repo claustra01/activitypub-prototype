@@ -45,7 +45,7 @@ func generatePublicKeyPem() (string, error) {
 
 	// DER形式の公開鍵をPEM形式に変換
 	publicKeyPEM := pem.EncodeToMemory(&pem.Block{
-		Type:  "RSA PUBLIC KEY",
+		Type:  "PUBLIC KEY",
 		Bytes: publicKeyBytes,
 	})
 
