@@ -34,5 +34,6 @@ func main() {
 
 	e.GET("/users/test", user.MockUser)
 
+	// log.Fatal(e.Start(":" + os.Getenv("PORT")))
 	log.Fatal(e.StartTLS(":"+os.Getenv("PORT"), "server.crt", "server.key"))
 }
