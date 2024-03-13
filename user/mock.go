@@ -17,7 +17,7 @@ type ActivityPubPerson struct {
 	Id                string    `json:"id"`
 	Inbox             string    `json:"inbox"`
 	Outbox            string    `json:"outbox"`
-	PrefferedUsername string    `json:"prefferedUsername"`
+	PreferredUsername string    `json:"preferredUsername"`
 	Name              string    `json:"name"`
 	Summary           string    `json:"summary"`
 	PublicKey         PublicKey `json:"publicKey"`
@@ -71,7 +71,7 @@ func MockUser(c echo.Context) error {
 		Id:                url,
 		Inbox:             url + "/inbox",
 		Outbox:            url + "/outbox",
-		PrefferedUsername: "test",
+		PreferredUsername: "test",
 		Name:              "Test User",
 		Summary:           "The user in activitypub server made by claustra01",
 		PublicKey: PublicKey{
