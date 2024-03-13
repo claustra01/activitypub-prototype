@@ -3,7 +3,6 @@ package wellknown
 import (
 	"fmt"
 	"net/http"
-	"os"
 
 	"github.com/labstack/echo/v4"
 )
@@ -18,16 +17,15 @@ type NodeInfoLink struct {
 }
 
 func NodeInfo(c echo.Context) error {
-	host := fmt.Sprintf("%s:%s", os.Getenv("HOSTNAME"), os.Getenv("PORT"))
 	resp := NodeInfoResponse{
 		Links: []NodeInfoLink{
 			{
 				Rel:  "http://nodeinfo.diaspora.software/ns/schema/2.1",
-				Href: fmt.Sprintf("https://%s/nodeinfo/2.1", host),
+				Href: fmt.Sprintf("https://%s/nodeinfo/2.1", c.Get("host").(string)),
 			},
 			{
 				Rel:  "http://nodeinfo.diaspora.software/ns/schema/2.0",
-				Href: fmt.Sprintf("https://%s/nodeinfo/2.0", host),
+				Href: fmt.Sprintf("https://%s/nodeinfo/2.0", c.Get("host").(string)),
 			},
 		},
 	}

@@ -3,7 +3,6 @@ package wellknown
 import (
 	"fmt"
 	"net/http"
-	"os"
 
 	"github.com/labstack/echo/v4"
 )
@@ -21,19 +20,18 @@ type WebFingerLink struct {
 
 func WebFinger(c echo.Context) error {
 	query := c.QueryParam("resource")
-	host := fmt.Sprintf("%s:%s", os.Getenv("HOSTNAME"), os.Getenv("PORT"))
 
-	if query != fmt.Sprintf("acct:test@%s", host) {
+	if query != fmt.Sprintf("acct:test@%s", c.Get("host").(string)) {
 		return c.JSON(http.StatusBadRequest, nil)
 	}
 
 	resp := WebFingerResponse{
-		Subject: fmt.Sprintf("acct:test@%s", host),
+		Subject: fmt.Sprintf("acct:test@%s", c.Get("host").(string)),
 		Links: []WebFingerLink{
 			{
 				Rel:  "self",
 				Type: "application/activity+json",
-				Href: fmt.Sprintf("https://%s/users/test", host),
+				Href: fmt.Sprintf("https://%s/users/test", c.Get("host").(string)),
 			},
 		},
 	}
