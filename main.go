@@ -9,6 +9,7 @@ import (
 	"github.com/claustra01/activitypub-prototype/wellknown"
 	"github.com/joho/godotenv"
 	"github.com/labstack/echo/v4"
+	"github.com/labstack/echo/v4/middleware"
 )
 
 func main() {
@@ -20,6 +21,10 @@ func main() {
 	}
 
 	e := echo.New()
+	e.Use(middleware.LoggerWithConfig(middleware.LoggerConfig{
+		Output: os.Stdout,
+		Format: "method=${method}, uri=${uri}, status=${status}\n",
+	}))
 
 	e.GET("/.well-known/nodeinfo", wellknown.NodeInfo)
 	e.GET("/.well-known/webfinger", wellknown.WebFinger)
