@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"io/ioutil"
 	"log"
 
@@ -13,8 +14,9 @@ import (
 )
 
 type Config struct {
-	Host string `yaml:"host"`
-	Port string `yaml:"port"`
+	Host   string `yaml:"host"`
+	Port   string `yaml:"port"`
+	UseCrt bool   `yaml:"useCrt"`
 }
 
 func main() {
@@ -48,6 +50,10 @@ func main() {
 
 	e.GET("/users/test", user.MockUser)
 
-	log.Fatal(e.Start(":" + config.Port))
-	// log.Fatal(e.StartTLS(":"+config.Port, "server.crt", "server.key"))
+	fmt.Print(config.UseCrt)
+	if config.UseCrt {
+		log.Fatal(e.StartTLS(":"+config.Port, "server.crt", "server.key"))
+	} else {
+		log.Fatal(e.Start(":" + config.Port))
+	}
 }
