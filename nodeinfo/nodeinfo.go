@@ -44,21 +44,3 @@ func NodeInfo2_0(c echo.Context) error {
 	}
 	return c.JSON(http.StatusOK, resp)
 }
-
-func NodeInfo2_1(c echo.Context) error {
-	resp := NodeInfoResponse{
-		SoftWare: SoftWare{
-			Name:    "activitypub-prototype",
-			Version: "0.0.1",
-		},
-		Version:           "2.1",
-		Protocols:         []string{"activitypub"},
-		OpenRegistrations: false,
-		Usage: Usage{
-			Users: UsageUsers{
-				Total: 1,
-			},
-		},
-	}
-	return c.JSON(http.StatusOK, resp)
-}

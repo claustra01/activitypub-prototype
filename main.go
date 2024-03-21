@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"io/ioutil"
 	"log"
 
@@ -46,11 +45,9 @@ func main() {
 	e.GET("/.well-known/webfinger", wellknown.WebFinger)
 
 	e.GET("/nodeinfo/2.0", nodeinfo.NodeInfo2_0)
-	e.GET("/nodeinfo/2.1", nodeinfo.NodeInfo2_1)
 
 	e.GET("/users/test", user.MockUser)
 
-	fmt.Print(config.UseCrt)
 	if config.UseCrt {
 		log.Fatal(e.StartTLS(":"+config.Port, "server.crt", "server.key"))
 	} else {
